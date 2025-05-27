@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  products:
+    build:
+      context: ./products-api
+    ports:
+      - "3001:3001"
+    networks:
+      - ecommerce-net
+
+  orders:
+    build:
+      context: ./orders-api
+    ports:
+      - "3002:3002"
+    depends_on:
+      - db
+      - redis
+      - products
+    networks:
+      - ecommerce-net
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=example
+      - MYSQL_DATABASE=ecommerce
+      - REDIS_HOST=redis
+
+  payments:
+    build:
+      context: ./payments-api
+    ports:
+      - "3003:3003"
+    depends_on:
+      - orders
+    networks:
+      - ecommerce-net
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: ecommerce
+    ports:
+      - "3307:3306"  # para evitar conflito na porta 3306 local
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - ecommerce-net
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - ecommerce-net
+
+volumes:
+  db_data:
+
+networks:
+  ecommerce-net:
