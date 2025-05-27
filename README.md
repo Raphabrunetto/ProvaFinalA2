@@ -1,7 +1,7 @@
 ### O que cada Dockerfile faz
 
 #### 1. Dockerfile da API de Produtos (Node.js)
-Vai criar uma imagem para a API de produtos em Node, vai instalar as dependências usando o comando de npm install, expor a porta da API, e vai executar a aplicação com `node index.js`.
+Vai criar uma imagem para a API de produtos em Node, vai instalar as dependências usando o comando de npm install, expor a porta da API, e vai executar a aplicação com node index.js.
 
 #### 2. Dockerfile da API de Pedidos (Python Flask)
 Vai criar a imagem para a API de pedidos em Python/Flask, instalar as dependências usando o comando de pip install -r requirements.txt, expor a porta da API, e por fim executar a aplicação Flask.
